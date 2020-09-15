@@ -1,3 +1,8 @@
+// Copied and adapted from YouTube presentation by ContextFree on
+// https://www.youtube.com/watch?v=fkbocd47xDE
+// Video dated 2020/04/20
+// titled: Demo: C++20 Generator Coroutines
+
 #include <cstdint>
 #include <fstream>
 #include <string>
