@@ -4,6 +4,10 @@ cmake_minimum_required(VERSION 3.16)
 
 set(APP_LOW_NAME cpp_coroutine)
 
+# Replace with the location of your copy of the test data copied and unzipped from 
+# http://download.geonames.org/export/dump/cities500.zip
+set(TEST_DATA_FILE "/tmp/cities500.txt")
+
 project(${APP_LOW_NAME} VERSION 1.0.0)
 
 include(CTest)
@@ -28,4 +32,4 @@ target_compile_options(${APP_LOW_NAME} PRIVATE
   $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:-Wall -Wextra -fcoroutines>
   $<$<CXX_COMPILER_ID:MSVC>:/Wall /w45038 /wd4201 /wd4365 /wd4626 /wd4710 /wd4711 /wd4820>)
 
-add_test(${APP_LOW_NAME} ${APP_LOW_NAME} "/tmp/cities500.txt")
+add_test(${APP_LOW_NAME} ${APP_LOW_NAME} ${TEST_DATA_FILE})
