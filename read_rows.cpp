@@ -10,8 +10,8 @@
 namespace frank::coro {
 
 // My own version of split_line, not copied from ContextFree's presentation
-void split_line(std::string const &line, std::vector<std::string> &fields,
-                char delimiter) {
+static void split_line(std::string const &line,
+                       std::vector<std::string> &fields, char delimiter) {
   fields.clear();
   std::stringstream l(line);
   while (l.good()) {
