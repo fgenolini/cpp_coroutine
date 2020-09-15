@@ -16,25 +16,26 @@ namespace frank::coro {
 // http://download.geonames.org/export/dump/cities500.zip
 // into cities500.txt
 auto population(int argc, char const *argv[]) -> population_count {
+  constexpr auto ARGUMENT_1 = 1;
   constexpr auto FIELD_LATITUDE = 4;
   constexpr auto FIELD_POPULATION = 14;
 
-  if (argc < 2 || !argv)
+  if (argc <= ARGUMENT_1 || !argv)
     return 0;
 
   auto args = std::vector<char const *>(argv, argv + argc);
-  std::string file_name{args.at(1)};
+  std::string file_name{args.at(ARGUMENT_1)};
   auto file = std::ifstream{file_name};
   auto population_south = population_count{0};
   auto population_total = population_count{0};
   auto row_count = 0;
   for (auto &row : read_rows(file)) {
     ++row_count;
-    if (row.size() < FIELD_LATITUDE)
+    if (row.size() <= FIELD_LATITUDE)
       continue;
 
     auto latitude_text = row.at(FIELD_LATITUDE);
-    if (row.size() < FIELD_POPULATION)
+    if (row.size() <= FIELD_POPULATION)
       continue;
 
     auto population_text = row.at(FIELD_POPULATION);
