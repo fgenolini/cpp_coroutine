@@ -1,6 +1,5 @@
 #pragma once
 
-#include <iostream>
 #include <string>
 #include <vector>
 
@@ -8,7 +7,9 @@
 
 namespace frank::coro {
 
-extern cppcoro::generator<const std::vector<std::string> &>
-read_rows(std::istream &in);
+constexpr auto DEFAULT_DELIMITER = '\t';
 
-}
+extern auto read_rows(std::istream &in, char delimiter = DEFAULT_DELIMITER)
+    -> cppcoro::generator<std::vector<std::string> const &>;
+
+} // namespace frank::coro
