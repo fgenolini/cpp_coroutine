@@ -38,8 +38,8 @@ auto population(int argc, char const *argv[]) -> population_count {
       continue;
 
     auto population_text = row.at(FIELD_POPULATION);
-    auto latitude = std::stod(std::string(latitude_text));
-    auto population = std::stod(std::string(population_text));
+    auto latitude = std::stod(latitude_text);
+    auto population = std::stod(population_text);
     population_total += population;
     if (latitude < 0)
       population_south += population;
