@@ -13,7 +13,7 @@ project(${APP_LOW_NAME} VERSION 1.0.0)
 include(CTest)
 enable_testing()
 
-# C standard required = C++ 20
+# C++ standard required = C++ 20
 # Only GCC 10 and above seem to have coroutine support.
 # The others (CLang, MSVC) have the experimental coroutine TS only
 set(CMAKE_CXX_STANDARD 20)
