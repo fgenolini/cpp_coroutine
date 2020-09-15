@@ -1,3 +1,6 @@
+// Copied and adapted from
+// https://github.com/lewissbaker/cppcoro#generatort
+
 #include <cstdint>
 #include <iostream>
 
