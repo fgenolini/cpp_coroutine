@@ -52,7 +52,7 @@ elseif(MSVC)
     "/std:c++latest")
 
   if(NOT has_coroutine)
-    message(STATUS "Try <expeirmental/coroutine> (Coroutines TS) instead of <coroutine> ...")
+    message(STATUS "Try <experimental/coroutine> (Coroutines TS) instead of <coroutine> ...")
       check_include_file_cxx("experimental/coroutine" has_coroutine_ts
         "/std:c++17")
   endif()
@@ -102,7 +102,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
     target_compile_definitions(${APP_LOW_NAME}
       PUBLIC
         USE_PORTABLE_COROUTINE_HANDLE
-        _RESUMABLE_FUNCTIONS_SUPPORTED  # _EXPERIMENTAL_RESUMABLE_
+        _RESUMABLE_FUNCTIONS_SUPPORTED
       PRIVATE FORCE_CLANG)
 
   elseif(UNIX OR APPLE)
