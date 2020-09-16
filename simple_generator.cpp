@@ -1,5 +1,9 @@
+#include "config.h"
+
+WARNINGS_OFF
 #include <coroutine>
 #include <iostream>
+WARNINGS_ON
 
 #include "simple_generator.h"
 

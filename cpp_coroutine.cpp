@@ -1,4 +1,8 @@
+#include "config.h"
+
+WARNINGS_OFF
 #include <cstdlib>
+WARNINGS_ON
 
 #include "cppcoro_test.h"
 #include "population.h"

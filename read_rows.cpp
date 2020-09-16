@@ -2,8 +2,11 @@
 // https://www.youtube.com/watch?v=fkbocd47xDE
 // (Demo: C++20 Generator Coroutines)
 // Video dated 2020/04/20
+#include "config.h"
 
+WARNINGS_OFF
 #include <sstream>
+WARNINGS_ON
 
 #include "read_rows.h"
 
@@ -21,6 +24,9 @@ static void split_line(std::string const &line,
   }
 }
 
+WARNING_PUSH
+DISABLE_WARNING_MSC(4623)
+DISABLE_WARNING_MSC(5027)
 auto read_rows(std::istream &in, char delimiter)
     -> cppcoro::generator<std::vector<std::string> const &> {
   auto line = std::string{};
@@ -30,5 +36,6 @@ auto read_rows(std::istream &in, char delimiter)
     co_yield columns;
   }
 }
+WARNINGS_ON
 
 } // namespace frank::coro

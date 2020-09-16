@@ -4,6 +4,10 @@
 // https://github.com/lewissbaker/cppcoro/blob/master/include/cppcoro/generator.hpp
 // commit 00b34af on 3 Nov 2019
 
+#include "config.h"
+
+WARNINGS_OFF
+
 ///////////////////////////////////////////////////////////////////////////////
 // Copyright (c) Lewis Baker
 // Licenced under MIT license. See LICENSE.txt for details.
@@ -203,3 +207,5 @@ fmap(FUNC func, generator<T> source) {
 }
 
 } // namespace cppcoro
+
+WARNINGS_ON

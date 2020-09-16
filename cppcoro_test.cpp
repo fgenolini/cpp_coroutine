@@ -1,8 +1,12 @@
 // Copied and adapted from
 // https://github.com/lewissbaker/cppcoro#generatort
 
+#include "config.h"
+
+WARNINGS_OFF
 #include <cstdint>
 #include <iostream>
+WARNINGS_ON
 
 #include "generator.h"
 

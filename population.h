@@ -1,6 +1,10 @@
 #pragma once
 
+#include "config.h"
+
+WARNINGS_OFF
 #include <cstdint>
+WARNINGS_ON
 
 namespace frank::coro {
 
