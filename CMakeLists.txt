@@ -14,11 +14,13 @@ include(CTest)
 enable_testing()
 
 # C++ standard required = C++ 20
-# Only GCC 10 and above seem to have coroutine support.
-# The others (CLang, MSVC) have the experimental coroutine TS only
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+
+include(CheckIncludeFiles)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in
+  ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
 set(CommonSourcesList
   cppcoro_test.cpp
@@ -28,8 +30,12 @@ set(CommonSourcesList
   )
 
 add_executable(${APP_LOW_NAME} ${APP_LOW_NAME}.cpp ${CommonSourcesList})
+
 target_compile_options(${APP_LOW_NAME} PRIVATE
   $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:-Wall -Wextra -fcoroutines>
-  $<$<CXX_COMPILER_ID:MSVC>:/Wall /w45038 /wd4201 /wd4365 /wd4626 /wd4710 /wd4711 /wd4820>)
+  $<$<CXX_COMPILER_ID:MSVC>:/D__STDC_WANT_SECURE_LIB__=1 /Wall /w45038 /wd4201 /wd4365 /wd4514 /wd4626 /wd4710 /wd4711 /wd4820>)
+
+target_include_directories(${APP_LOW_NAME} PUBLIC
+  "${PROJECT_BINARY_DIR}" "${CMAKE_BINARY_DIR}")
 
 add_test(${APP_LOW_NAME} ${APP_LOW_NAME} ${TEST_DATA_FILE})
