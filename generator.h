@@ -13,7 +13,16 @@ WARNINGS_OFF
 // Licenced under MIT license. See LICENSE.txt for details.
 ///////////////////////////////////////////////////////////////////////////////
 
+// Coroutine detection copied and adapted from
+// https://github.com/luncliff/coroutine/blob/master/interface/coroutine/channel.hpp
+#if __has_include(<coroutine>) && !defined(USE_EXPERIMENTAL_COROUTINE)
 #include <coroutine>
+namespace std_coro = std;
+#elif __has_include(<experimental/coroutine>)
+#include <experimental/coroutine>
+namespace std_coro = std::experimental;
+#endif
+
 #include <exception>
 #include <functional>
 #include <iterator>
@@ -36,17 +45,19 @@ public:
 
   generator<T> get_return_object() noexcept;
 
-  constexpr std::suspend_always initial_suspend() const { return {}; }
-  constexpr std::suspend_always final_suspend() const { return {}; }
+  constexpr std_coro::suspend_always initial_suspend() const { return {}; }
+  constexpr std_coro::suspend_always final_suspend() const { return {}; }
 
   template <typename U = T,
             std::enable_if_t<!std::is_rvalue_reference<U>::value, int> = 0>
-  std::suspend_always yield_value(std::remove_reference_t<T> &value) noexcept {
+  std_coro::suspend_always
+  yield_value(std::remove_reference_t<T> &value) noexcept {
     m_value = std::addressof(value);
     return {};
   }
 
-  std::suspend_always yield_value(std::remove_reference_t<T> &&value) noexcept {
+  std_coro::suspend_always
+  yield_value(std::remove_reference_t<T> &&value) noexcept {
     m_value = std::addressof(value);
     return {};
   }
@@ -60,7 +71,8 @@ public:
   }
 
   // Don't allow any use of 'co_await' inside the generator coroutine.
-  template <typename U> std::suspend_never await_transform(U &&value) = delete;
+  template <typename U>
+  std_coro::suspend_never await_transform(U &&value) = delete;
 
   void rethrow_if_exception() {
     if (m_exception) {
@@ -76,7 +88,7 @@ private:
 struct generator_sentinel {};
 
 template <typename T> class generator_iterator {
-  using coroutine_handle = std::coroutine_handle<generator_promise<T>>;
+  using coroutine_handle = std_coro::coroutine_handle<generator_promise<T>>;
 
 public:
   using iterator_category = std::input_iterator_tag;
@@ -180,10 +192,11 @@ public:
 private:
   friend class detail::generator_promise<T>;
 
-  explicit generator(std::coroutine_handle<promise_type> coroutine) noexcept
+  explicit generator(
+      std_coro::coroutine_handle<promise_type> coroutine) noexcept
       : m_coroutine(coroutine) {}
 
-  std::coroutine_handle<promise_type> m_coroutine;
+  std_coro::coroutine_handle<promise_type> m_coroutine;
 };
 
 template <typename T> void swap(generator<T> &a, generator<T> &b) { a.swap(b); }
@@ -191,7 +204,7 @@ template <typename T> void swap(generator<T> &a, generator<T> &b) { a.swap(b); }
 namespace detail {
 template <typename T>
 generator<T> generator_promise<T>::get_return_object() noexcept {
-  using coroutine_handle = std::coroutine_handle<generator_promise<T>>;
+  using coroutine_handle = std_coro::coroutine_handle<generator_promise<T>>;
   return generator<T>{coroutine_handle::from_promise(*this)};
 }
 
