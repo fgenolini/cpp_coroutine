@@ -3,9 +3,13 @@
 // (Demo: C++20 Generator Coroutines)
 // Video dated 2020/04/20
 
+#include "config.h"
+
+WARNINGS_OFF
 #include <fstream>
 #include <iostream>
 #include <string>
+WARNINGS_ON
 
 #include "population.h"
 #include "read_rows.h"
@@ -39,8 +43,8 @@ auto population(int argc, char const *argv[]) -> population_count {
       continue;
 
     auto population_text = row.at(FIELD_POPULATION);
-    auto latitude = std::stod(latitude_text);
-    auto population = std::stod(population_text);
+    auto latitude = (population_count)std::stod(latitude_text);
+    auto population = (population_count)std::stod(population_text);
     population_total += population;
     if (latitude < 0)
       population_south += population;
