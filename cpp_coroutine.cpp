@@ -14,7 +14,7 @@ int main(int argc, char const *argv[]) {
   frank::coro::cppcoro_test();
   auto south_population = frank::coro::population(argc, argv);
   if (south_population < frank::coro::EXPECTED_SOUTH_POPULATION) {
-    std::cerr << "South population  < "
+    std::cerr << "South population < "
               << frank::coro::EXPECTED_SOUTH_POPULATION << '\n';
     std::exit(EXIT_FAILURE);
   }
