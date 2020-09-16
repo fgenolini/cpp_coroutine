@@ -1,7 +1,9 @@
 # cpp_coroutine
  C++ 20 coroutines.
 
-Currently only supported by GCC 10.
+Currently supported by:
+* GCC 10
+* Microsoft Visual C++ 16.8.0 (MSVC 19.28.29304.1)
 
 
  ## Test data
