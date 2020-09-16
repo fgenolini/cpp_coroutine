@@ -6,7 +6,11 @@ set(APP_LOW_NAME cpp_coroutine)
 
 # Replace with the location of your copy of the test data copied and unzipped from 
 # http://download.geonames.org/export/dump/cities500.zip
-set(TEST_DATA_FILE "/tmp/cities500.txt")
+if (WIN32)
+  set(TEST_DATA_FILE "D:\\\\tmp\\\\cities500.txt")
+else()
+  set(TEST_DATA_FILE "/tmp/cities500.txt")
+endif()
 
 project(${APP_LOW_NAME} VERSION 1.0.0)
 
