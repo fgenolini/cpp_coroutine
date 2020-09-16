@@ -1,7 +1,15 @@
 #include "config.h"
 
 WARNINGS_OFF
+// Coroutine detection copied and adapted from
+// https://github.com/luncliff/coroutine/blob/master/interface/coroutine/channel.hpp
+#if __has_include(<coroutine>) && !defined(USE_EXPERIMENTAL_COROUTINE)
 #include <coroutine>
+namespace std_coro = std;
+#elif __has_include(<experimental/coroutine>)
+#include <experimental/coroutine>
+namespace std_coro = std::experimental;
+#endif
 #include <iostream>
 WARNINGS_ON
 
@@ -19,7 +27,7 @@ namespace frank::coro {
 struct generator {
   struct promise_type;
 
-  using handle = std::coroutine_handle<promise_type>;
+  using handle = std_coro::coroutine_handle<promise_type>;
 
   struct promise_type {
     static auto get_return_object_on_allocation_failure() {
@@ -27,14 +35,14 @@ struct generator {
     }
 
     auto get_return_object() { return generator{handle::from_promise(*this)}; }
-    auto initial_suspend() { return std::suspend_always{}; }
-    auto final_suspend() { return std::suspend_always{}; }
+    auto initial_suspend() { return std_coro::suspend_always{}; }
+    auto final_suspend() noexcept { return std_coro::suspend_always{}; }
     void unhandled_exception() { std::terminate(); }
     void return_void() {}
 
     auto yield_value(int value) {
       current_value = value;
-      return std::suspend_always{};
+      return std_coro::suspend_always{};
     }
 
     int current_value;
