@@ -53,8 +53,8 @@ elseif(MSVC)
 
   if(NOT has_coroutine)
     message(STATUS "Try <experimental/coroutine> (Coroutines TS) instead of <coroutine> ...")
-      check_include_file_cxx("experimental/coroutine" has_coroutine_ts
-        "/std:c++17")
+    check_include_file_cxx("experimental/coroutine" has_coroutine_ts
+      "/std:c++17")
   endif()
 
   # has coroutine headers?
