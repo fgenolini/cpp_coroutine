@@ -92,11 +92,9 @@ add_executable(${APP_LOW_NAME} ${APP_LOW_NAME}.cpp ${CommonSourcesList})
 if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
   if(WIN32)
     # 'target_compile_options' removes duplicated -Xclang directive.
-    # avoide the removal using cmake flag variable
+    # avoid the removal using cmake flag variable
     target_compile_options(${APP_LOW_NAME}
-      PUBLIC
-        "/clang:-fcoroutines-ts"
-        -fms-compatibility)
+      PUBLIC "/clang:-fcoroutines-ts" -fms-compatibility)
 
     # in this case, we always use portable header
     target_compile_definitions(${APP_LOW_NAME}
@@ -107,31 +105,23 @@ if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
 
   elseif(UNIX OR APPLE)
     target_compile_options(${APP_LOW_NAME}
-      PUBLIC
-        -std=c++2a -stdlib=libc++
-        -fcoroutines-ts)
+      PUBLIC -std=c++2a -stdlib=libc++ -fcoroutines-ts)
   endif()
 
 elseif(CMAKE_CXX_COMPILER_ID MATCHES GNU)
   target_compile_options(${APP_LOW_NAME}
-    PUBLIC
-      -std=gnu++2a
-      -fcoroutines -fconcepts)
+    PUBLIC -std=gnu++2a -fcoroutines -fconcepts)
 
-  target_link_libraries(${APP_LOW_NAME}
-    PUBLIC stdc++)
+  target_link_libraries(${APP_LOW_NAME} PUBLIC stdc++)
 
 elseif(MSVC)
   # select between C++ Coroutines TS & C++ 20 Coroutines
-  if(support_intrinsic_builtin AND has_coroutine)
-    target_compile_options(${APP_LOW_NAME}
-      PUBLIC /std:c++latest)
+  if(support_latest AND has_coroutine)
+    target_compile_options(${APP_LOW_NAME} PUBLIC /std:c++latest)
   else()
-    target_compile_options(${APP_LOW_NAME}
-      PUBLIC /std:c++17 /await)
+    target_compile_options(${APP_LOW_NAME} PUBLIC /std:c++17 /await)
   endif()
-    target_compile_options(${APP_LOW_NAME}
-      PRIVATE /JMC-)
+    target_compile_options(${APP_LOW_NAME} PRIVATE /JMC-)
 endif()
 
 # Set warning level as high as practicable, mute some warnings of less value
