@@ -23,6 +23,9 @@ auto population(int argc, char const *argv[]) -> population_count {
   constexpr auto ARGUMENT_1 = 1;
   constexpr auto FIELD_LATITUDE = 4;
   constexpr auto FIELD_POPULATION = 14;
+  constexpr auto NEEDED_FIELD_COUNT = 2;
+  constexpr std::array<int, NEEDED_FIELD_COUNT> needed_fields{FIELD_LATITUDE,
+                                                              FIELD_POPULATION};
 
   if (argc <= ARGUMENT_1 || !argv)
     return 0;
@@ -33,16 +36,13 @@ auto population(int argc, char const *argv[]) -> population_count {
   auto population_south = population_count{0};
   auto population_total = population_count{0};
   auto row_count = 0;
-  for (auto &row : read_rows(file)) {
+  for (auto &row : read_rows(file, needed_fields)) {
     ++row_count;
-    if (row.size() <= FIELD_LATITUDE)
+    if (row.size() < NEEDED_FIELD_COUNT)
       continue;
 
-    auto latitude_text = row.at(FIELD_LATITUDE);
-    if (row.size() <= FIELD_POPULATION)
-      continue;
-
-    auto population_text = row.at(FIELD_POPULATION);
+    auto latitude_text = row.at(0);
+    auto population_text = row.at(1);
     auto latitude = (population_count)std::stod(latitude_text);
     auto population = (population_count)std::stod(population_text);
     population_total += population;
