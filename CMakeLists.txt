@@ -82,7 +82,6 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in
 set(CommonSourcesList
   cppcoro_test.cpp
   population.cpp
-  read_rows.cpp
   simple_generator.cpp)
 
 add_executable(${APP_LOW_NAME} ${APP_LOW_NAME}.cpp ${CommonSourcesList})
