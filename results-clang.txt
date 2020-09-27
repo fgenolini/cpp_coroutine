@@ -14,7 +14,7 @@ ls -al cpp_coroutine-clang
 
 
 gtime -v ./cpp_coroutine ~/Downloads/cities500.txt
-  Command being timed: "./cpp_coroutine /Users/francoisgenolini/Downloads/cities500.txt"
+  Command being timed: "./cpp_coroutine ~/Downloads/cities500.txt"
   User time (seconds): 0.36
   System time (seconds): 0.00
   Percent of CPU this job got: 59%
